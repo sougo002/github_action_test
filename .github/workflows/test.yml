@@ -28,6 +28,7 @@ jobs:
           echo "dir_json=$json" >> $GITHUB_ENV
 
   dev-deploy:
+    needs: get-dir
     strategy:
       matrix:
         dir: ${{env.dir_json.dir}}
