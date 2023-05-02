@@ -8,11 +8,9 @@ on:
 jobs:
   A:
     runs-on: ubuntu-latest
-  
-  steps:
-    - name: command
-      run: |
-      #!/bin/bash
-      echo "dirname=$(pwd)" >> $GITHUB_ENV
-    - name: out
-      run: echo "${env.dirname}"
+    steps:
+      - name: comm
+        run: echo "dirname=$(pwd)" >> $GITHUB_ENV
+
+      - name: out
+        run: echo "${{env.dirname}}"
