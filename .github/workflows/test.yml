@@ -38,6 +38,15 @@ jobs:
     strategy:
       matrix:
         dir: ["${{ needs.get_dir_names.outputs.dir_names }}"]
+    defaults:
+      run:
+        working-directory: ${{ matrix.dir }}
     steps:
+      - name: npm install
+        run: "npm i"
+
+      - name: zipping
+        run: "zip -r deploy.zip ."
+
       - name: test
-        run: "echo ${{ matrix.dir }}"
+        run: ls -la
