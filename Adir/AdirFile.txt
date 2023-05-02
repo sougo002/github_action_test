@@ -1,1 +1,5 @@
-addaddaddadd
+          json='{"event_type":"test","client_payload":{"dir":[]}}'
+          for dir in Adir Bdir; do
+            json=$(echo $json | jq --compact-output ".client_payload.dir = .client_payload.dir + [\"`echo $dir`\"]");
+          done;
+          echo "matrix_json=$json"

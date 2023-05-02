@@ -19,17 +19,18 @@ jobs:
           dir_names: "true"
           dir_names_exclude_root: "true"
           dir_names_max_depth: "1"
-
-      - name: List all changed files
+      - name: get dir names
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
-          done
+          json='{"dir":[]}'
+          for dir in ${{env.steps.changed-files.outputs.all_changed_files}}; do
+            json=$(echo $json | jq --compact-output ".dir = .dir + [\"`echo $dir`\"]");
+          done;
+          echo "dir_json=$json" >> $GITHUB_ENV
 
   dev-deploy:
     strategy:
       matrix:
-        dirs: ${{env.steps.changed-files.outputs.all_changed_files}}
+        dir: ${{env.dir_json.dir}}
     steps:
-      - name: echo
-        run: echo ${{matrix.dirs}}
+      - name: test
+        run: ${{matrix.dir}}
