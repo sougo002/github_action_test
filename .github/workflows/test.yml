@@ -32,7 +32,7 @@ jobs:
           echo "dir_names=${dir_names[@]}" >> "$GITHUB_OUTPUT"
 
   is_extract_dir:
-    if: ${{ needs.get_dir_names.outputs.dir_names }} != ''
+    if: needs.get_dir_names.outputs.dir_names != ''
     needs: get_dir_names
     runs-on: ubuntu-latest
     steps:
