@@ -48,6 +48,10 @@ jobs:
           cache: "npm"
           cache-dependency-path: ./${{ matrix.dir }}/package-lock.json
 
+      - name: Install dependencies
+        working-directory: ${{ matrix.dir }}
+        run: "npm i"
+
       - name: zipping
         working-directory: ${{ matrix.dir }}
         run: "zip -r deploy.zip ."
