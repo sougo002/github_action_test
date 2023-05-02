@@ -6,18 +6,11 @@ on:
       - develop
 
 jobs:
-  A:
+  get-dir:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: comm
-        run: echo "dirname=$(pwd | awk '{sub("/.*./", "");print $0;}')" >> $GITHUB_ENV
-
-      - name: out
-        run: echo ${{env.dirname}}
 
       - name: Get changed files
         id: changed-files
@@ -32,3 +25,11 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
+
+  dev-deploy:
+    strategy:
+      matrix:
+        dirs: ${{env.steps.changed-files.outputs.all_changed_files}}
+    steps:
+      - name: echo
+        run: echo ${{matrix.dirs}}
