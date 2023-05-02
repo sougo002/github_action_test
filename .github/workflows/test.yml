@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  get-dir-names:
+  get_dir_names:
     runs-on: ubuntu-latest
     outputs:
       dirs: ${steps.get_dir_names.outputs.dir_names}
@@ -29,16 +29,15 @@ jobs:
           for dir in ${{env.steps.changed-files.outputs.all_changed_files}}; do
             dir_names+=($dir);
           done;
-          echo ${dir_names[@]}
           echo "dir_names=${dir_names[@]}" >> "$GITHUB_OUTPUT"
 
   dev-deploy:
-    if: ${{ needs.get-dir-names.outputs.dir_names }} != ''
+    if: ${{ needs.get_dir_names.outputs.dir_names }} != ''
     runs-on: ubuntu-latest
-    needs: get-dir-names
+    needs: get_dir_names
     strategy:
       matrix:
-        dir: ${{ needs.get-dir-names.outputs.dir_names }}
+        dir: ${{ needs.get_dir_names.outputs.dir_names }}
     steps:
       - name: test
         run: ${{ matrix.dir }}
