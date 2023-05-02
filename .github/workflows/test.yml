@@ -13,4 +13,4 @@ jobs:
         run: echo "dirname=$(pwd)" >> $GITHUB_ENV
 
       - name: out
-        run: echo "${{env.dirname}}"
+        run: echo (pwd | awk '{sub("/.*./", "");print $0;}') >> $GITHUB_ENV
