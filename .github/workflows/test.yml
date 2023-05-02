@@ -27,7 +27,9 @@ jobs:
         run: |
           dir_names=()
           for dir in ${{steps.changed-files.outputs.all_changed_files}}; do
-            dir_names+=($dir);
+            if [[ ! ${dir} =~ ^[.]+.*$ ]]; then
+              dir_names+=($dir);
+            fi
           done;
           echo "dir_names=${dir_names[@]}" >> "$GITHUB_OUTPUT"
 
@@ -40,16 +42,11 @@ jobs:
         dir: ["${{ needs.get_dir_names.outputs.dir_names }}"]
     steps:
       - name: Setup Node.js
-        working-directory: ${{ matrix.dir }}
         uses: actions/setup-node@v3
         with:
           node-version: 18.12.1
           cache: "npm"
           cache-dependency-path: ./${{ matrix.dir }}/package-lock.json
-
-      - name: Install dependencies
-        working-directory: ${{ matrix.dir }}
-        run: "npm i"
 
       - name: zipping
         working-directory: ${{ matrix.dir }}
