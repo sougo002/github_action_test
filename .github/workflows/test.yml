@@ -1,0 +1,18 @@
+name: test
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  A:
+    runs-on: ubuntu-latest
+  
+  steps:
+    - name: command
+      run: |
+      #!/bin/bash
+      echo "dirname=$(pwd)" >> $GITHUB_ENV
+    - name: out
+      run: echo "${env.dirname}"
