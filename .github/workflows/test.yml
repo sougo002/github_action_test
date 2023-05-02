@@ -38,15 +38,23 @@ jobs:
     strategy:
       matrix:
         dir: ["${{ needs.get_dir_names.outputs.dir_names }}"]
-    defaults:
-      run:
-        working-directory: ${{ matrix.dir }}
     steps:
-      - name: npm install
+      - name: Setup Node.js
+        working-directory: ${{ matrix.dir }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.12.1
+          cache: "npm"
+          cache-dependency-path: ./${{ matrix.dir }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ${{ matrix.dir }}
         run: "npm i"
 
       - name: zipping
+        working-directory: ${{ matrix.dir }}
         run: "zip -r deploy.zip ."
 
       - name: test
+        working-directory: ${{ matrix.dir }}
         run: ls -la
