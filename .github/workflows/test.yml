@@ -31,19 +31,10 @@ jobs:
           done;
           echo "dir_names=${dir_names[@]}" >> "$GITHUB_OUTPUT"
 
-  is_extract_dir:
-    if: needs.get_dir_names.outputs.dir_names != ''
-    needs: get_dir_names
-    runs-on: ubuntu-latest
-    steps:
-      - name: dummy step
-        env:
-          DIR_NAMES: ${{ needs.get_dir_names.outputs.dir_names }}
-        run: "echo $DIR_NAMES"
-
   dev-deploy:
+    needs: get_dir_names
+    if: needs.get_dir_names.outputs.dir_names != ''
     runs-on: ubuntu-latest
-    needs: [is_extract_dir, get_dir_names]
     strategy:
       matrix:
         dir: ["${{ needs.get_dir_names.outputs.dir_names }}"]
