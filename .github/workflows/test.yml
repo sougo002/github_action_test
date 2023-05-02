@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: comm
-        run: echo "dirname=$(pwd)" >> $GITHUB_ENV
+        run: echo "dirname=(pwd | awk '{sub("/.*./", "");print $0;}')" >> $GITHUB_ENV
 
       - name: out
-        run: echo (pwd | awk '{sub("/.*./", "");print $0;}') >> $GITHUB_ENV
+        run: echo ${{env.dirname}}
