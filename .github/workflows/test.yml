@@ -49,4 +49,4 @@ jobs:
         dir: ["${{ needs.get_dir_names.outputs.dir_names }}"]
     steps:
       - name: test
-        run: ${{ matrix.dir }}
+        run: "echo ${{ matrix.dir }}"
