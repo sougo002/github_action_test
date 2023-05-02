@@ -13,7 +13,6 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v35
@@ -41,6 +40,9 @@ jobs:
       matrix:
         dir: ["${{ needs.get_dir_names.outputs.dir_names }}"]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -49,13 +51,12 @@ jobs:
           cache-dependency-path: ./${{ matrix.dir }}/package-lock.json
 
       - name: Install dependencies
-        working-directory: ${{ matrix.dir }}
+        working-directory: ./${{ matrix.dir }}
         run: "npm i"
 
       - name: zipping
-        working-directory: ${{ matrix.dir }}
+        working-directory: ./${{ matrix.dir }}
         run: "zip -r deploy.zip ."
 
-      - name: test
-        working-directory: ${{ matrix.dir }}
-        run: ls -la
+      - name: test2
+        run: ls -la ${{ matrix.dir }}
