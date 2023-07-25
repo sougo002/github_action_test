@@ -30,6 +30,7 @@ jobs:
 
   dev-deploy:
     needs: get_dir_names
+    if: needs.get_dir_names.outputs.dir_names
     runs-on: ubuntu-latest
     strategy:
       matrix:
