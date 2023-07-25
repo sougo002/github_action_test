@@ -26,6 +26,7 @@ jobs:
         id: get_dir_names
         run: |
           dir_names=$(printf '%s\n' ${{ steps.changed-files.outputs.all_changed_files }} | jq -R . | jq -s -c .)
+          echo "dir_names=$dir_names"
           echo "dir_names=$dir_names" >> "$GITHUB_OUTPUT"
 
   dev-deploy:
